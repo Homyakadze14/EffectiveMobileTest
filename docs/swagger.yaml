@@ -1,0 +1,196 @@
+basePath: /api/v1
+definitions:
+  dto.FilterRequest:
+    properties:
+      end_date:
+        type: string
+      service_name:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
+    required:
+    - end_date
+    - start_date
+    type: object
+  dto.SubscritpionRequest:
+    properties:
+      end_date:
+        type: string
+      price:
+        type: integer
+      service_name:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
+    required:
+    - price
+    - service_name
+    - start_date
+    - user_id
+    type: object
+  dto.SubscritpionResponse:
+    properties:
+      end_date:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      service_name:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
+    type: object
+  dto.SubscritpionsResponse:
+    properties:
+      subscriptions:
+        items:
+          $ref: '#/definitions/dto.SubscritpionResponse'
+        type: array
+    type: object
+  dto.SumResponse:
+    properties:
+      sum:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: RestAPI for effective mobile
+  title: EffectiveMobile
+  version: "1.0"
+paths:
+  /subscriptions:
+    get:
+      description: Get subscriptions
+      operationId: GetSubscriptions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubscritpionsResponse'
+        "500":
+          description: Internal Server Error
+      summary: Get subscriptions
+      tags:
+      - Subscritpion
+    post:
+      consumes:
+      - application/json
+      description: Create subscription
+      operationId: CreateSubscription
+      parameters:
+      - description: Subscritpion creation data
+        in: body
+        name: subscription
+        schema:
+          $ref: '#/definitions/dto.SubscritpionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubscritpionResponse'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create subscription
+      tags:
+      - Subscritpion
+  /subscriptions/{id}:
+    delete:
+      description: Delete subscription
+      operationId: DeleteSubscritpion
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete subscription
+      tags:
+      - Subscritpion
+    get:
+      description: Get subscription by id
+      operationId: GetSubscriptionByID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubscritpionResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get subscription by id
+      tags:
+      - Subscritpion
+    put:
+      consumes:
+      - application/json
+      description: Update subscription
+      operationId: UpdateSubscription
+      parameters:
+      - description: Subscritpion update data
+        in: body
+        name: subscription
+        schema:
+          $ref: '#/definitions/dto.SubscritpionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubscritpionResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update subscription
+      tags:
+      - Subscritpion
+  /subscriptions/sum:
+    post:
+      consumes:
+      - application/json
+      description: Get subscriptions price sum
+      operationId: GetSubscriptionsPriceSum
+      parameters:
+      - description: Filter
+        in: body
+        name: filter
+        schema:
+          $ref: '#/definitions/dto.FilterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SumResponse'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get subscriptions price sum
+      tags:
+      - Subscritpion
+swagger: "2.0"
